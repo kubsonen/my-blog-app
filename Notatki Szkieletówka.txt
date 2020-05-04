@@ -1,0 +1,21 @@
+Widoki:
+**Publiczne
+	- Widok główny
+		> Posty z kłódką i bez kłódki
+		> Jeżeli post z kłódką to musi wyskoczyć okienko z wpisaniem hasła
+		> Poginacja postów
+		> Wyszukiwanie postów - w całej bazie - uwzględniać tagi
+		> Topbar -> Preferencje użytkownika
+	- Widok postu
+		> Okienko do wpisania nowego komentarza
+		> Pod okienkiem historyczne komentarze
+	- Widok rejestracji
+	- Widok logowania
+	- Widok administracji
+		> Okno dodawania, edycji i usuwanie posta
+		> Okno nadawania uprawnień
+	
+Role:
+	- Admin - nadaje uprawnienia
+	- Redaktor - pisze posty
+	- Użytkownik - komentować + polubienia
