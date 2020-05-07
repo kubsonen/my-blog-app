@@ -88,7 +88,7 @@
         <footer class="card-footer">
             <span class="card-footer-item">
                 <i class="fas fa-eye" style="margin-right: .75rem; color: #3273dc;"></i>
-                <a href="#" style="color: #3273dc;">View</a>
+                <a onclick="openModal()" style="color: #3273dc;">View</a>
             </span>
             <span class="card-footer-item">
                 <i class="far fa-thumbs-down" style="margin-right: .75rem; color: hsl(348, 100%, 61%);"></i>
@@ -114,4 +114,39 @@
         </div>
     </div>
 </div>
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Type post password</p>
+            <button class="delete close-modal" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <input id="post-password" name="post-password" class="input" type="password" placeholder="Post password">
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success">Confirm</button>
+        </footer>
+    </div>
+</div>
+<script>
+    function openModal() {
+        var modal = document.querySelector('.modal');  // assuming you have only 1
+        var html = document.querySelector('html');
+        modal.classList.add('is-active');
+        html.classList.add('is-clipped');
+
+        modal.querySelector('.modal-background').addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.remove('is-active');
+            html.classList.remove('is-clipped');
+        });
+        modal.querySelector('.close-modal').addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.remove('is-active');
+            html.classList.remove('is-clipped');
+        });
+    }
+</script>
+
 {% endblock %}
