@@ -1,3 +1,7 @@
 blog/.idea
 blog/blog/__pycache__
+blog/manager/__pycache__
+blog/manager/migrations/__pycache__
+blog/post/__pycache__
+blog/post/migrations/__pycache__
 blog/db.sqlite3
