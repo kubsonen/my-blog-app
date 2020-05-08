@@ -4,9 +4,9 @@ from django.shortcuts import render
 
 
 def posts(request):
-    page = request.GET.get('page', '')
-    context = {}
-    return render(request, 'post/posts.html')
+    search_text = request.GET.get('search-text', '')
+    context = {'search_text': search_text}
+    return render(request, 'post/posts.html', context)
 
 
 def post(request, post_id):
