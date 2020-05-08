@@ -5,3 +5,5 @@ blog/manager/migrations/__pycache__
 blog/post/__pycache__
 blog/post/migrations/__pycache__
 blog/db.sqlite3
+blog/userActions/__pycache__
+blog/userActions/migrations/__pycache__
