@@ -10,7 +10,7 @@
             </span>
             <span class="card-footer-item">
                 <i class="far fa-thumbs-up" style="margin-right: .75rem; color: #3273dc;"></i>
-                <a href="#">Likes (34)</a>
+                <a href="#">Likes ({{ count_of_likes }})</a>
             </span>
             <span class="card-footer-item">
                 <i class="far fa-comments" style="margin-right: .75rem; color: #3273dc;"></i>
@@ -25,24 +25,30 @@
         <div class="card-content">
             <div class="media">
                 <div class="media-content">
-                    <p class="title is-4">John Smith</p>
-                    <p class="subtitle is-6">@johnsmith</p>
+                    <p class="title is-4">{{ blog_dto_post.tittle }}</p>
+                    <p class="subtitle is-6">@author {{ blog_dto_post.author }}</p>
                 </div>
             </div>
 
             <div class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                <a href="#">#css</a> <a href="#">#responsive</a>
+                {{ blog_dto_post.content }}
                 <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                <time style="font-size: smaller;">{{ blog_dto_post.create_date }}</time>
             </div>
         </div>
         <footer class="card-footer">
+            {% if blog_dto_post.like %}
             <span class="card-footer-item">
                 <i class="far fa-thumbs-down" style="margin-right: .75rem; color: hsl(348, 100%, 61%);"></i>
-                <a href="#" style="color: hsl(348, 100%, 61%);">Unlike</a>
+                <a href="/like/{{ blog_dto_post.id }}?like=false" style="color: hsl(348, 100%, 61%);">Unlike</a>
             </span>
+            {% endif %}
+            {% if not blog_dto_post.like %}
+            <span class="card-footer-item">
+                <i class="far fa-thumbs-up" style="margin-right: .75rem; color: #3273dc;"></i>
+                <a href="/like/{{ blog_dto_post.id }}?like=true">Like</a>
+            </span>
+            {% endif %}
         </footer>
     </div>
     <div class="card" style="margin: 1.5rem auto;">
