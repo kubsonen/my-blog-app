@@ -15,9 +15,9 @@ class Post(models.Model):
     createDate = models.DateField()
     content = models.TextField()
     title = models.TextField(max_length=200)
-    postStatus = models.TextField(max_length=50)
-    postType = models.TextField(max_length=50)
-    postPassword = models.TextField(max_length=50)
+    postStatus = models.TextField(max_length=50, null=True, blank=True)
+    postType = models.TextField(max_length=50, null=True, blank=True)
+    postPassword = models.TextField(max_length=50, null=True, blank=True)
     postImages = models.ManyToManyField(Images)
 
 

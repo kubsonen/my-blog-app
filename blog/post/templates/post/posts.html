@@ -2,6 +2,9 @@
 
 {% block post_content %}
 <div class="container">
+
+
+    <!--    Search space -->
     <div class="card" style="margin: 1.5rem auto;">
         <header class="card-header">
             <p class="card-header-title">
@@ -17,7 +20,8 @@
             <form id="search-text-form" action="/" method="get">
                 <div class="content">
                     <div class="control">
-                        <input id="search-text" name="search-text" value="{{ search_text }}" class="input" type="text" placeholder="Search text">
+                        <input id="search-text" name="search-text" value="{{ search_text }}" class="input" type="text"
+                               placeholder="Search text">
                     </div>
                 </div>
             </form>
@@ -29,6 +33,47 @@
             </span>
         </footer>
     </div>
+
+    <!--    Blog post -->
+    {% for p in blog_posts %}
+
+    <div class="card" style="margin-top: 1.5rem;">
+
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image is-48x48">
+                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <p class="title is-4">{{ p.title }}</p>
+                    <p class="subtitle is-6">@author {{ p.author.first_name }} {{ p.author.last_name }}</p>
+                </div>
+            </div>
+
+            <div class="content">
+                {{ p.content }} <a>@bulmaio</a>.
+                <a href="#">#css</a> <a href="#">#responsive</a>
+                <br>
+                <time style="font-size: smaller;">{{ p.createDate }}</time>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <span class="card-footer-item">
+                <i class="fas fa-lock" style="margin-right: .75rem; color: hsl(348, 100%, 61%);"></i>
+                <a href="#" style="color: hsl(348, 100%, 61%);">View</a>
+            </span>
+            <span class="card-footer-item">
+                <i class="far fa-thumbs-up" style="margin-right: .75rem; color: #3273dc;"></i>
+                <a href="#">Like</a>
+            </span>
+        </footer>
+    </div>
+
+    {% endfor %}
+
+
     <div class="card" style="margin-top: 1.5rem;">
 
         <div class="card-content">
@@ -96,6 +141,8 @@
             </span>
         </footer>
     </div>
+
+    <!--    Pagination -->
     <div class="card" style="margin-top: 1.5rem;">
         <div class="card-content">
             <nav class="pagination is-right" role="navigation" aria-label="pagination">
@@ -114,6 +161,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -147,6 +196,11 @@
             html.classList.remove('is-clipped');
         });
     }
+
+
+
+
+
 </script>
 
 {% endblock %}
