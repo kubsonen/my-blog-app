@@ -35,7 +35,7 @@
     </div>
 
     <!--    Blog post -->
-    {% for p in blog_posts %}
+    {% for p in blog_dto_posts %}
 
     <div class="card" style="margin-top: 1.5rem;">
 
@@ -47,8 +47,8 @@
                     </figure>
                 </div>
                 <div class="media-content">
-                    <p class="title is-4">{{ p.title }}</p>
-                    <p class="subtitle is-6">@author {{ p.author.first_name }} {{ p.author.last_name }}</p>
+                    <p class="title is-4">{{ p.tittle }}</p>
+                    <p class="subtitle is-6">@author {{ p.author }} </p>
                 </div>
             </div>
 
@@ -56,13 +56,13 @@
                 {{ p.content }} <a>@bulmaio</a>.
                 <a href="#">#css</a> <a href="#">#responsive</a>
                 <br>
-                <time style="font-size: smaller;">{{ p.createDate }}</time>
+                <time style="font-size: smaller;">{{ p.create_date }}</time>
             </div>
         </div>
         <footer class="card-footer">
             <span class="card-footer-item">
                 <i class="fas fa-lock" style="margin-right: .75rem; color: hsl(348, 100%, 61%);"></i>
-                <a href="#" style="color: hsl(348, 100%, 61%);">View</a>
+                <a href="/post/{{ p.id }}" style="color: hsl(348, 100%, 61%);">View</a>
             </span>
             <span class="card-footer-item">
                 <i class="far fa-thumbs-up" style="margin-right: .75rem; color: #3273dc;"></i>
