@@ -14,7 +14,7 @@
             </span>
             <span class="card-footer-item">
                 <i class="far fa-comments" style="margin-right: .75rem; color: #3273dc;"></i>
-                <a href="#">Comments (5)</a>
+                <a href="#">Comments ({{ comment_count }})</a>
             </span>
         </header>
         <div class="card-image">
@@ -36,6 +36,7 @@
                 <time style="font-size: smaller;">{{ blog_dto_post.create_date }}</time>
             </div>
         </div>
+        {% if user_logged_in %}
         <footer class="card-footer">
             {% if blog_dto_post.like %}
             <span class="card-footer-item">
@@ -50,7 +51,9 @@
             </span>
             {% endif %}
         </footer>
+        {% endif %}
     </div>
+    {% if user_logged_in %}
     <div class="card" style="margin: 1.5rem auto;">
         <header class="card-header">
             <p class="card-header-title">
@@ -62,44 +65,55 @@
                 </span>
             </a>
         </header>
-        <div class="card-content">
-            <div class="content">
-                <div class="control">
-                    <textarea class="textarea" placeholder="Type text"></textarea>
+        <form id="comment-form" action="/post/{{ blog_dto_post.id }}/comment" method="post">
+            {% csrf_token %}
+            <div class="card-content">
+                <div class="content">
+                    <div class="control">
+                        <textarea name="comment" id="id-comment" class="textarea" placeholder="Type text"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
         <footer class="card-footer">
             <span class="card-footer-item">
                 <i class="fas fa-plus" style="margin-right: .75rem; color: #3273dc;"></i>
-                <a href="#" class="">Add</a>
+                <a href="#" onclick="document.getElementById('comment-form').submit();">Add</a>
             </span>
         </footer>
     </div>
+    {% endif %}
+
+    {% for c in comments %}
     <div style="margin: 1.5rem auto;">
         <div class="box">
             <article class="media">
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+                            <strong>{{ c.author }}</strong>
+                            <small>{{ c.create_date }}</small>
                             <br>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet
-                            massa fringilla egestas. Nullam condimentum luctus turpis.
+                            {{ c.content }}
                         </p>
                     </div>
+                    {% if c.my_own %}
                     <nav class="level is-mobile">
                         <div class="level-left">
-                            <a class="level-item" aria-label="reply">
+                            <a class="level-item" aria-label="remove" href="/post/comment/{{ c.id }}/remove">
                                 <span class="icon is-small">
                                   <i class="fas fa-trash" style="color: hsl(348, 100%, 61%);" aria-hidden="true"></i>
                                 </span>
                             </a>
                         </div>
                     </nav>
+                    {% endif %}
                 </div>
             </article>
         </div>
     </div>
+    {% endfor %}
+
+
 </div>
 {% endblock %}

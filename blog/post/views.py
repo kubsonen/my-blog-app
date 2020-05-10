@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from post.dtos import PostDTO
-from post.models import Post, Like
+from post.dtos import PostDTO, CommentDTO
+from post.forms import CommentForm
+from post.models import Post, Like, Comment
 from post.util import cut_text
 
 
@@ -45,6 +45,15 @@ def convert_post_to_dto(p, req, cut):
     return dto
 
 
+def convert_comment_to_dto(c):
+    dto = CommentDTO()
+    dto.id = c.id
+    dto.author = c.author.first_name + ' ' + c.author.last_name
+    dto.create_date = c.date
+    dto.content = c.content
+    return dto
+
+
 def posts(request):
     search_text = request.GET.get('search-text', '')
     ps = Post.objects.all()
@@ -61,10 +70,22 @@ def posts(request):
 def post(request, post_id):
     p = Post.objects.get(id=post_id)
     p_dto = convert_post_to_dto(p, request, False)
-    authenticated = request.user.is_authenticated
-    # likes = Like.objects.filter(post=p).aggregate(Count('id'))
+    current_user = request.user
+    authenticated = current_user.is_authenticated
     likes = Like.objects.filter(post=p, like=True).count()
-    context = {'blog_dto_post': p_dto, 'user_logged_in': authenticated, 'count_of_likes': likes}
+
+    comments = Comment.objects.filter(post=p)
+    comment_dtos = []
+    for c in comments:
+        dto = convert_comment_to_dto(c)
+        dto.my_own = False
+        if authenticated and c.author.id == current_user.id:
+            dto.my_own = True
+        comment_dtos.append(dto)
+
+    context = {'blog_dto_post': p_dto, 'user_logged_in': authenticated, 'count_of_likes': likes,
+               'comments': comment_dtos, 'comment_count': len(comments)}
+
     return render(request, 'post/post.html', context)
 
 
@@ -94,4 +115,30 @@ def post_like(request, post_id):
         like.data = datetime.now()
         like.save()
 
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def post_comment(request, post_id):
+    p = Post.objects.get(id=post_id)
+    current_user = request.user
+
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            c = Comment(post=p, author=current_user, date=datetime.now(), content=form.cleaned_data['comment'])
+            c.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def post_comment_remove(request, comment_id):
+    current_user = request.user
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    c = Comment.objects.get(id=comment_id)
+    if c.author.id == current_user.id:
+        c.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
