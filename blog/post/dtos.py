@@ -6,3 +6,11 @@ class PostDTO:
     author = str
     create_date = str
     like = bool
+
+
+class CommentDTO:
+    id = int
+    author = str
+    create_date = str
+    content = str
+    my_own = bool
