@@ -9,8 +9,10 @@ class Images(models.Model):
     date = models.DateField()
     name = models.TextField(max_length=200)
 
+
 class Tag(models.Model):
     content = models.TextField(max_length=50)
+
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,7 +22,7 @@ class Post(models.Model):
     postStatus = models.TextField(max_length=50, null=True, blank=True)
     postType = models.TextField(max_length=50, null=True, blank=True)
     postPassword = models.TextField(max_length=50, null=True, blank=True)
-    postImages = models.ManyToManyField(Images)
+    postImages = models.ManyToManyField(Images, null=True, blank=True)
     tag = models.ManyToManyField(Tag)
 
 
@@ -29,6 +31,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     content = models.TextField(max_length=300)
+
 
 class Category(models.Model):
     content = models.TextField(max_length=50)

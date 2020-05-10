@@ -6,6 +6,7 @@ class PostDTO:
     author = str
     create_date = str
     like = bool
+    tags = []
 
 
 class CommentDTO:

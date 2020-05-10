@@ -25,11 +25,13 @@
         <div class="card-content">
             <div class="media">
                 <div class="media-content">
-                    <p class="title is-4">{{ blog_dto_post.tittle }}</p>
+                    {% for t in blog_dto_post.tags %}
+                    <span class="tag is-primary"># {{ t }}</span>
+                    {% endfor %}
+                    <p class="title is-4" style="margin-top: 8px;">{{ blog_dto_post.tittle }}</p>
                     <p class="subtitle is-6">@author {{ blog_dto_post.author }}</p>
                 </div>
             </div>
-
             <div class="content">
                 {{ blog_dto_post.content }}
                 <br>

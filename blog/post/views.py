@@ -23,6 +23,11 @@ def convert_post_to_dto(p, req, cut):
     dto.author = p.author.first_name + ' ' + p.author.last_name
     dto.create_date = p.createDate
 
+    tags = []
+    for t in p.tag.all():
+        tags.append(t.content)
+    dto.tags = tags
+
     current_user = req.user
     authenticated = req.user.is_authenticated
 
@@ -49,6 +54,8 @@ def convert_comment_to_dto(c):
     dto = CommentDTO()
     dto.id = c.id
     dto.author = c.author.first_name + ' ' + c.author.last_name
+    if dto.author is None or len(dto.author.strip()) == 0:
+        dto.author = c.author.username
     dto.create_date = c.date
     dto.content = c.content
     return dto
