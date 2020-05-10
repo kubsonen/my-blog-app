@@ -9,6 +9,8 @@ class Images(models.Model):
     date = models.DateField()
     name = models.TextField(max_length=200)
 
+class Tag(models.Model):
+    content = models.TextField(max_length=50)
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,6 +21,7 @@ class Post(models.Model):
     postType = models.TextField(max_length=50, null=True, blank=True)
     postPassword = models.TextField(max_length=50, null=True, blank=True)
     postImages = models.ManyToManyField(Images)
+    tag = models.ManyToManyField(Tag)
 
 
 class Comment(models.Model):
@@ -26,12 +29,6 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     content = models.TextField(max_length=300)
-
-
-class Tag(models.Model):
-    content = models.TextField(max_length=50)
-    posts = models.ManyToManyField(Post)
-
 
 class Category(models.Model):
     content = models.TextField(max_length=50)
