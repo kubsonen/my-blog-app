@@ -35,7 +35,7 @@
     </div>
 
     <!--    Blog post -->
-    {% for p in blog_dto_posts %}
+    {% for p in page_obj %}
 
     <div class="card" style="margin-top: 1.5rem;">
 
@@ -101,13 +101,30 @@
                 <a class="pagination-previous">Previous</a>
                 <a class="pagination-next">Next page</a>
                 <ul class="pagination-list">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="pagination-link" aria-label="Goto page 1">&laquo; 1</a>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.previous_page_number }}</a>
+                    {% endif %}
+                    
+                    <span class="current">
+                        <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">{{ page_obj.number }}</a></li>
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="pagination-link" aria-label="Goto page 1">{{page_obj.next_page_number}}</a>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.paginator.num_pages }} &raquo;</a>
+                    {% endif %}
+
+                    <!-- <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     <li><span class="pagination-ellipsis">&hellip;</span></li>
                     <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
                     <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
                     <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
                     <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li> -->
                 </ul>
             </nav>
         </div>

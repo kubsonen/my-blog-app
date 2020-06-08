@@ -7,7 +7,7 @@ from post.dtos import PostDTO, CommentDTO
 from post.forms import CommentForm
 from post.models import Post, Like, Comment
 from post.util import cut_text
-
+from django.core.paginator import Paginator
 
 def convert_post_to_dto(p, req, cut):
     dto = PostDTO()
@@ -70,9 +70,18 @@ def posts(request):
     for p in ps:
         ps_dto.append(convert_post_to_dto(p, request, True))
 
-    context = {'search_text': search_text, 'blog_dto_posts': ps_dto, 'user_logged_in': authenticated}
-    return render(request, 'post/posts.html', context)
 
+    paginator = Paginator(ps_dto,5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'search_text': search_text, 
+        'blog_dto_posts': ps_dto, 
+        'user_logged_in': authenticated, 
+        'page_obj':page_obj
+        }
+    return render(request, 'post/posts.html', context)
 
 def post(request, post_id):
     p = Post.objects.get(id=post_id)
@@ -149,3 +158,14 @@ def post_comment_remove(request, comment_id):
     if c.author.id == current_user.id:
         c.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def listing(request):
+    post_list = Post.objects.all()
+
+    paginator = Paginator(post_list,15)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'page_obj':page_obj}
+    return render(request, 'post/posts.html', context)
