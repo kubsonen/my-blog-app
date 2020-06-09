@@ -4,10 +4,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from post.dtos import PostDTO, CommentDTO
-from post.forms import CommentForm
+from post.forms import CommentForm, PasswordForm
 from post.models import Post, Like, Comment, Images
 from post.util import cut_text
 from django.core.paginator import Paginator
+
 
 def convert_post_to_dto(p, req, cut):
     dto = PostDTO()
@@ -31,6 +32,9 @@ def convert_post_to_dto(p, req, cut):
         dto.content = p.content
 
     dto.author = p.author.first_name + ' ' + p.author.last_name
+    if dto.author is None or len(dto.author.strip()) == 0:
+        dto.author = p.author.username
+
     dto.create_date = p.createDate
 
     tags = []
@@ -57,6 +61,11 @@ def convert_post_to_dto(p, req, cut):
         else:
             dto.like = False
 
+        if p.authentications:
+            for a in p.authentications.all():
+                if a.id == current_user.id:
+                    dto.unlock = True
+
     return dto
 
 
@@ -79,29 +88,28 @@ def posts(request):
 
     for p in ps:
         if search_text:
-            print(search_text) 
+            print(search_text)
             search_text = search_text.lower()
             if search_text in p.author.first_name.lower() or search_text in p.title.lower() or search_text in p.content.lower():
                 ps_dto.append(convert_post_to_dto(p, request, True))
         else:
             ps_dto.append(convert_post_to_dto(p, request, True))
             
-
-        paginator = Paginator(ps_dto, 10)
-    if search_text:
-        paginator = Paginator(ps_dto, 10000000)    
-
+    paginator = Paginator(ps_dto, 1)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = {}
+    if paginator:
+        page_obj = paginator.get_page(page_number)
 
     context = {
-        'search_text': search_text, 
-        'blog_dto_posts': ps_dto, 
-        'user_logged_in': authenticated, 
-        'page_obj':page_obj
-        }
+        'search_text': search_text,
+        'blog_dto_posts': ps_dto,
+        'user_logged_in': authenticated,
+        'page_obj': page_obj
+    }
 
     return render(request, 'post/posts.html', context)
+
 
 def post(request, post_id):
     p = Post.objects.get(id=post_id)
@@ -178,3 +186,24 @@ def post_comment_remove(request, comment_id):
     if c.author.id == current_user.id:
         c.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def post_password(request, post_id):
+    current_user = request.user
+    referrer = request.META.get('HTTP_REFERER');
+    referrer = referrer.replace('user-not-login', '').replace('wrong-post-password', '').replace('?', '')
+
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(referrer + '?user-not-login')
+
+    if request.method == 'POST':
+        form = PasswordForm(request.POST)
+        if form.is_valid():
+            p = Post.objects.get(id=post_id)
+            input_password = form.cleaned_data['password']
+            if p.postPassword == input_password:
+                p.authentications.add(current_user)
+            else:
+                return HttpResponseRedirect(referrer + '?wrong-post-password')
+
+    return HttpResponseRedirect('/post/' + str(post_id))

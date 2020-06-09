@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.views.generic import ListView
+from django.db import models
+
 
 # Create your models here.
 
@@ -25,7 +25,9 @@ class Post(models.Model):
     postPassword = models.TextField(max_length=50, null=True, blank=True)
     miniature = models.ImageField(upload_to='images/')
     postImages = models.ImageField(upload_to='images/')
+    postImages = models.ManyToManyField(Images, blank=True)
     tag = models.ManyToManyField(Tag)
+    authentications = models.ManyToManyField(User, related_name='authentications', blank=True)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
