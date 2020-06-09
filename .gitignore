@@ -8,3 +8,6 @@ blog/db.sqlite3
 blog/userActions/__pycache__
 blog/userActions/migrations/__pycache__
 blog/media
+blog/post/__pycache__
+blog/post/migrations/
+blog/post/migrations/__pycache__
