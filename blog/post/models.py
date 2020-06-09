@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 
 class Images(models.Model):
-    #path = models.TextField(max_length=200)
+    # path = models.TextField(max_length=200)
     path = models.ImageField(upload_to='images/')
     date = models.DateField()
     name = models.TextField(max_length=200)
@@ -24,10 +24,10 @@ class Post(models.Model):
     postType = models.TextField(max_length=50, null=True, blank=True)
     postPassword = models.TextField(max_length=50, null=True, blank=True)
     miniature = models.ImageField(upload_to='images/')
-    postImages = models.ImageField(upload_to='images/')
-    postImages = models.ManyToManyField(Images, blank=True)
+    postImages = models.ImageField(upload_to='images/', blank=True)
     tag = models.ManyToManyField(Tag)
     authentications = models.ManyToManyField(User, related_name='authentications', blank=True)
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
