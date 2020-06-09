@@ -68,10 +68,19 @@ def posts(request):
     authenticated = request.user.is_authenticated
 
     for p in ps:
-        ps_dto.append(convert_post_to_dto(p, request, True))
+        if search_text:
+            print(search_text) 
+            search_text = search_text.lower()
+            if search_text in p.author.first_name.lower() or search_text in p.title.lower() or search_text in p.content.lower():
+                ps_dto.append(convert_post_to_dto(p, request, True))
+        else:
+            ps_dto.append(convert_post_to_dto(p, request, True))
 
 
-    paginator = Paginator(ps_dto,5)
+        paginator = Paginator(ps_dto, 10)
+    if search_text:
+        paginator = Paginator(ps_dto, 10000000)    
+
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -158,14 +167,3 @@ def post_comment_remove(request, comment_id):
     if c.author.id == current_user.id:
         c.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-def listing(request):
-    post_list = Post.objects.all()
-
-    paginator = Paginator(post_list,15)
-
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    context = {'page_obj':page_obj}
-    return render(request, 'post/posts.html', context)
