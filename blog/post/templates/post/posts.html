@@ -43,7 +43,7 @@
             <div class="media">
                 <div class="media-left">
                     <figure class="image is-48x48">
-
+                        
                         <!-- <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image"> -->
                         <img src="{{ p.miniature }}" alt="Placeholder image">
                     </figure>
@@ -55,27 +55,24 @@
             </div>
 
             <div class="content">
-                {% for t in p.tags %}
-                <a># {{ t }}</a>
-                {% endfor %}
-                <br>
-                {{ p.content }}
+                {{ p.content }} <a>@bulmaio</a>.
+                <a href="#">#css</a> <a href="#">#responsive</a>
                 <br>
                 <time style="font-size: smaller;">{{ p.create_date }}</time>
             </div>
         </div>
         <footer class="card-footer">
 
-            {% if not p.password_required or p.unlock %}
+            {% if not p.password_required %}
             <span class="card-footer-item">
                 <i class="fas fa-eye" style="margin-right: .75rem; color: #3273dc;"></i>
-                <a href="/post/{{ p.id }}" style="color: #3273dc;">View</a>
+                <a onclick="openModal()" style="color: #3273dc;">View</a>
             </span>
             {% endif %}
-            {% if p.password_required and not p.unlock %}
+            {% if p.password_required %}
             <span class="card-footer-item">
                 <i class="fas fa-lock" style="margin-right: .75rem; color: hsl(348, 100%, 61%);"></i>
-                <a onclick="openModal({{ p.id }})" style="color: hsl(348, 100%, 61%);">View</a>
+                <a href="/post/{{ p.id }}" style="color: hsl(348, 100%, 61%);">View</a>
             </span>
             {% endif %}
 
@@ -107,19 +104,19 @@
                 <a class="pagination-next">Next page</a> -->
                 <ul class="pagination-list">
                     {% if page_obj.has_previous %}
-                        <a href="?page=1{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">&laquo; 1</a>
+                        <a href="?page=1" class="pagination-link" aria-label="Goto page 1">&laquo; 1</a>
                         <li><span class="pagination-ellipsis">&hellip;</span></li>
-                        <a href="?page={{ page_obj.previous_page_number }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.previous_page_number }}</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.previous_page_number }}</a>
                     {% endif %}
-
+                    
                     <span class="current">
                         <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">{{ page_obj.number }}</a></li>
                     </span>
 
                     {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{page_obj.next_page_number}}</a>
+                        <a href="?page={{ page_obj.next_page_number }}" class="pagination-link" aria-label="Goto page 1">{{page_obj.next_page_number}}</a>
                         <li><span class="pagination-ellipsis">&hellip;</span></li>
-                        <a href="?page={{ page_obj.paginator.num_pages }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.paginator.num_pages }} &raquo;</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.paginator.num_pages }} &raquo;</a>
                     {% endif %}
 
                     <!-- <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
@@ -137,7 +134,7 @@
 </div>
 
 
-<div id="type-password-modal" class="modal">
+<div class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
@@ -145,40 +142,17 @@
             <button class="delete close-modal" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-            <form method="post" id="post-form">
-                {% csrf_token %}
-                <input id="post-password" name="password" class="input" type="password" placeholder="Post password">
-            </form>
+            <input id="post-password" name="post-password" class="input" type="password" placeholder="Post password">
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-success" id="confirm-button">Confirm</button>
+            <button class="button is-success">Confirm</button>
         </footer>
     </div>
 </div>
-
-<div id="error-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head" style="background-color: #f14668;">
-            <p class="modal-card-title" style="color: #fff;">Error!</p>
-            <button class="delete close-modal" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-            <p id="error-paragraph"></p>
-        </section>
-    </div>
-</div>
-
-
 <script>
-
-    function showError(text) {
-
-        var errorParagraph = document.getElementById('error-paragraph');
-        errorParagraph.innerHTML = text;
-        var modal = document.getElementById('error-modal');  // assuming you have only 1
+    function openModal() {
+        var modal = document.querySelector('.modal');  // assuming you have only 1
         var html = document.querySelector('html');
-
         modal.classList.add('is-active');
         html.classList.add('is-clipped');
 
@@ -187,53 +161,27 @@
             modal.classList.remove('is-active');
             html.classList.remove('is-clipped');
         });
-
         modal.querySelector('.close-modal').addEventListener('click', function(e) {
             e.preventDefault();
             modal.classList.remove('is-active');
             html.classList.remove('is-clipped');
         });
-
-    }
-
-    let href = window.location.href;
-    if (href.includes('wrong-post-password')) {
-        showError('Post wrong password');
-    }
-    if (href.includes('user-not-login')) {
-        showError('Please log in');
     }
 
 
-    function openModal(postId) {
 
-        var form = document.getElementById('post-form');
-        var button = document.getElementById('confirm-button');
-        var modal = document.getElementById('type-password-modal');  // assuming you have only 1
-        var html = document.querySelector('html');
-        modal.classList.add('is-active');
-        html.classList.add('is-clipped');
-        form.action = 'post/' + postId + '/password';
 
-        modal.querySelector('.modal-background').addEventListener('click', function(e) {
-            form.action = '';
-            e.preventDefault();
-            modal.classList.remove('is-active');
-            html.classList.remove('is-clipped');
-        });
 
-        modal.querySelector('.close-modal').addEventListener('click', function(e) {
-            form.action = '';
-            e.preventDefault();
-            modal.classList.remove('is-active');
-            html.classList.remove('is-clipped');
-        });
 
-        button.onclick = function() {
-            form.submit();
-        }
 
-    }
+
+
+
+
+
+
+
+
 
 </script>
 
