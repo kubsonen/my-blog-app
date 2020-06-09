@@ -24,9 +24,8 @@ class Post(models.Model):
     postType = models.TextField(max_length=50, null=True, blank=True)
     postPassword = models.TextField(max_length=50, null=True, blank=True)
     miniature = models.ImageField(upload_to='images/')
-    postImages = models.ManyToManyField(Images, null=True, blank=True)
+    postImages = models.ImageField(upload_to='images/')
     tag = models.ManyToManyField(Tag)
-
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

@@ -13,8 +13,8 @@ def convert_post_to_dto(p, req, cut):
     dto = PostDTO()
     dto.id = p.id
 
-    if len(p.postImages.all()):
-        dto.mainImage = p.postImages.all()[0].path.url
+    if p.postImages:
+        dto.mainImage = p.postImages.url
     else:
         dto.mainImage = 'https://bulma.io/images/placeholders/96x96.png'
 
