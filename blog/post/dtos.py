@@ -1,3 +1,4 @@
+
 class PostDTO:
     id = int
     password_required = bool
@@ -7,6 +8,7 @@ class PostDTO:
     create_date = str
     like = bool
     tags = []
+    mainImage = str
 
 
 class CommentDTO:

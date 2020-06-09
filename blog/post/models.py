@@ -5,7 +5,8 @@ from django.views.generic import ListView
 # Create your models here.
 
 class Images(models.Model):
-    path = models.TextField(max_length=200)
+    #path = models.TextField(max_length=200)
+    path = models.ImageField(upload_to='images/')
     date = models.DateField()
     name = models.TextField(max_length=200)
 

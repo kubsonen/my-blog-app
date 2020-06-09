@@ -5,13 +5,18 @@ from django.shortcuts import render
 
 from post.dtos import PostDTO, CommentDTO
 from post.forms import CommentForm
-from post.models import Post, Like, Comment
+from post.models import Post, Like, Comment, Images
 from post.util import cut_text
 from django.core.paginator import Paginator
 
 def convert_post_to_dto(p, req, cut):
     dto = PostDTO()
     dto.id = p.id
+
+    if len(p.postImages.all()):
+        dto.mainImage = p.postImages.all()[0].path.url
+    else:
+        dto.mainImage = 'https://bulma.io/images/placeholders/96x96.png'
 
     if cut:
         dto.tittle = cut_text(p.title, 20)
@@ -75,7 +80,7 @@ def posts(request):
                 ps_dto.append(convert_post_to_dto(p, request, True))
         else:
             ps_dto.append(convert_post_to_dto(p, request, True))
-
+            
 
         paginator = Paginator(ps_dto, 10)
     if search_text:
@@ -90,6 +95,7 @@ def posts(request):
         'user_logged_in': authenticated, 
         'page_obj':page_obj
         }
+
     return render(request, 'post/posts.html', context)
 
 def post(request, post_id):
