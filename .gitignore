@@ -7,3 +7,4 @@ blog/post/migrations/__pycache__
 blog/db.sqlite3
 blog/userActions/__pycache__
 blog/userActions/migrations/__pycache__
+blog/media
