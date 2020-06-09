@@ -23,6 +23,7 @@ class Post(models.Model):
     postStatus = models.TextField(max_length=50, null=True, blank=True)
     postType = models.TextField(max_length=50, null=True, blank=True)
     postPassword = models.TextField(max_length=50, null=True, blank=True)
+    miniature = models.ImageField(upload_to='images/')
     postImages = models.ManyToManyField(Images, null=True, blank=True)
     tag = models.ManyToManyField(Tag)
 

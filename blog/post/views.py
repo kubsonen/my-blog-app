@@ -18,6 +18,11 @@ def convert_post_to_dto(p, req, cut):
     else:
         dto.mainImage = 'https://bulma.io/images/placeholders/96x96.png'
 
+    if p.miniature:
+        dto.miniature = p.miniature.url
+    else:
+        dto.miniature = 'https://bulma.io/images/placeholders/96x96.png'
+
     if cut:
         dto.tittle = cut_text(p.title, 20)
         dto.content = cut_text(p.content, 200)

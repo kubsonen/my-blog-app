@@ -8,6 +8,7 @@ class PostDTO:
     create_date = str
     like = bool
     tags = []
+    miniature = str
     mainImage = str
 
 
