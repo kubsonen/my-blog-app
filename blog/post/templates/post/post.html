@@ -6,7 +6,12 @@
         <header class="card-header">
             <span class="card-footer-item">
                 <i class="fas fa-arrow-left" style="margin-right: .75rem; color: #3273dc;"></i>
-                <a href="/">Back</a>
+                <a href="#" onclick="goBack();">Back</a>
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
             </span>
             <span class="card-footer-item">
                 <i class="far fa-thumbs-up" style="margin-right: .75rem; color: #3273dc;"></i>
@@ -116,7 +121,5 @@
         </div>
     </div>
     {% endfor %}
-
-
 </div>
 {% endblock %}

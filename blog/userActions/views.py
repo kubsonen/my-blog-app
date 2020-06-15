@@ -1,17 +1,9 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.template import loader
-
-from .forms import LoginForm, RegisterForm
-
-from django.contrib.auth.models import User
-
 # authentication imports:
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 
-import sys
-
+from .forms import LoginForm, RegisterForm
 
 
 def login_view(request):
@@ -21,16 +13,16 @@ def login_view(request):
         if form.is_valid():
             _userName = request.POST['login']
             _userPassword = request.POST['password']
-            user = authenticate(request, username=_userName, password = _userPassword)
+            user = authenticate(request, username=_userName, password=_userPassword)
 
             if user is not None:
                 login(request, user)
-                return render(request, 'post/posts.html')
-                
+                return HttpResponseRedirect('/')
+
     else:
         form = LoginForm()
 
-    return render(request, 'userActions/login.html', {'form':form})
+    return render(request, 'userActions/login.html', {'form': form})
 
 
 def register_view(request):
@@ -39,16 +31,13 @@ def register_view(request):
         if form.is_valid():
             form.save()
 
-            return redirect('login')
+            return redirect('/userActions/login?success-register')
     else:
         form = RegisterForm()
 
-    return render(request, 'userActions/register.html', {'form':form})
+    return render(request, 'userActions/register.html', {'form': form})
 
 
-def logout_View(request):
+def logout_view(request):
     logout(request)
-    return render(request, 'post/posts.html')
-
-
-
+    return HttpResponseRedirect('/')

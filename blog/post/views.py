@@ -88,7 +88,6 @@ def posts(request):
 
     for p in ps:
         if search_text:
-            print(search_text)
             search_text = search_text.lower()
             if search_text in p.author.first_name.lower() or search_text in p.title.lower() or search_text in p.content.lower():
                 ps_dto.append(convert_post_to_dto(p, request, True))

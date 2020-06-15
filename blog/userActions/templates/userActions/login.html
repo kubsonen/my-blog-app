@@ -28,4 +28,51 @@
         </div>
     </div>
 </div>
+
+<div id="info-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head" style="background-color: hsl(171, 100%, 41%);;">
+            <p class="modal-card-title" style="color: #fff">Success!</p>
+            <button class="delete close-modal" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p id="error-paragraph"></p>
+        </section>
+    </div>
+</div>
+
+<script>
+
+    function showInfo(text) {
+
+        var errorParagraph = document.getElementById('error-paragraph');
+        errorParagraph.innerHTML = text;
+        var modal = document.getElementById('info-modal');  // assuming you have only 1
+        var html = document.querySelector('html');
+
+        modal.classList.add('is-active');
+        html.classList.add('is-clipped');
+
+        modal.querySelector('.modal-background').addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.remove('is-active');
+            html.classList.remove('is-clipped');
+        });
+
+        modal.querySelector('.close-modal').addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.remove('is-active');
+            html.classList.remove('is-clipped');
+        });
+
+    }
+
+    let href = window.location.href;
+    if (href.includes('success-register')) {
+        showInfo('Register success!');
+    }
+
+</script>
+
 {% endblock %}
