@@ -7,6 +7,7 @@ class PostDTO:
     author = str
     create_date = str
     like = bool
+    unlock = bool
     tags = []
     miniature = str
     mainImage = str
