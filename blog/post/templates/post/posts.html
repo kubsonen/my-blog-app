@@ -105,22 +105,21 @@
             <nav class="pagination is-right" role="navigation" aria-label="pagination">
                 <ul class="pagination-list">
                     {% if page_obj.has_previous %}
-                    <a href="?page=1{% if search_text %}&search-text={{ search_text }}{% endif %}"
-                       class="pagination-link" aria-label="Goto page 1">&laquo; 1</a>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <a href="?page={{ page_obj.previous_page_number }}{% if search_text %}&search-text={{ search_text }}{% endif %}"
-                       class="pagination-link" aria-label="Goto page 1">{{ page_obj.previous_page_number }}</a>
+                        <a href="?page=1{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">&laquo; 1</a>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <a href="?page={{ page_obj.previous_page_number }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.previous_page_number }}</a>
                     {% endif %}
+
                     <span class="current">
                         <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">{{ page_obj.number }}</a></li>
                     </span>
+
                     {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}{% if search_text %}&search-text={{ search_text }}{% endif %}"
-                       class="pagination-link" aria-label="Goto page 1">{{page_obj.next_page_number}}</a>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <a href="?page={{ page_obj.paginator.num_pages }}{% if search_text %}&search-text={{ search_text }}{% endif %}"
-                       class="pagination-link" aria-label="Goto page 1">{{ page_obj.paginator.num_pages }} &raquo;</a>
+                        <a href="?page={{ page_obj.next_page_number }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{page_obj.next_page_number}}</a>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <a href="?page={{ page_obj.paginator.num_pages }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.paginator.num_pages }} &raquo;</a>
                     {% endif %}
+
                 </ul>
             </nav>
         </div>
@@ -225,7 +224,6 @@
         }
 
     }
-
 
 </script>
 
