@@ -11,3 +11,6 @@ blog/media
 blog/post/__pycache__
 blog/post/migrations/
 blog/post/migrations/__pycache__
+blog/post/migrations/
+blog/userActions/migrations/__init__.py
+blog/post/migrations/0001_initial.py
