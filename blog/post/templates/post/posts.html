@@ -103,8 +103,6 @@
     <div class="card" style="margin: 1.5rem auto;">
         <div class="card-content">
             <nav class="pagination is-right" role="navigation" aria-label="pagination">
-                <!-- <a class="pagination-previous">Previous</a>
-                <a class="pagination-next">Next page</a> -->
                 <ul class="pagination-list">
                     {% if page_obj.has_previous %}
                         <a href="?page=1{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">&laquo; 1</a>
@@ -122,14 +120,6 @@
                         <a href="?page={{ page_obj.paginator.num_pages }}{% if search_text %}&search-text={{ search_text }}{% endif %}" class="pagination-link" aria-label="Goto page 1">{{ page_obj.paginator.num_pages }} &raquo;</a>
                     {% endif %}
 
-                    <!-- <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-                    <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                    <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-                    <li><span class="pagination-ellipsis">&hellip;</span></li>
-                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li> -->
                 </ul>
             </nav>
         </div>

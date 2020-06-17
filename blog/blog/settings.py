@@ -25,7 +25,7 @@ SECRET_KEY = 'jo@eg0qd!giexh!(^8@*5wrm29pau8#12m9qu1(i=x++mg*n-q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['jcoding.pl']
 
 
 # Application definition
