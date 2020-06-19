@@ -190,10 +190,14 @@ def post_comment_remove(request, comment_id):
 def post_password(request, post_id):
     current_user = request.user
     referrer = request.META.get('HTTP_REFERER');
-    referrer = referrer.replace('user-not-login', '').replace('wrong-post-password', '').replace('?', '')
+    referrer = referrer.replace('user-not-login', '').replace('wrong-post-password', '')
+    if '?' in referrer:
+        referrer = '&'
+    else:
+        referrer = '?'
 
     if not current_user.is_authenticated:
-        return HttpResponseRedirect(referrer + '?user-not-login')
+        return HttpResponseRedirect(referrer + 'user-not-login')
 
     if request.method == 'POST':
         form = PasswordForm(request.POST)
